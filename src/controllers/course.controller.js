@@ -6,7 +6,7 @@ const courseController = {
             const courses = await Course.find();
             res.send(courses);
         } catch (err) {
-            res.status(500).send(err.message);
+            res.status(500).send("Erreur serveur lors de la récupération des cours : " + err.message);
         }
     },
 
@@ -15,11 +15,11 @@ const courseController = {
         try {
             const course = await Course.findById(id);
             if (!course) {
-                return res.status(404).send('Course not found');
+                return res.status(404).send("Cours non trouvé");
             }
             res.send(course);
         } catch (err) {
-            res.status(500).send(err.message);
+            res.status(500).send("Erreur serveur lors de la récupération du cours : " + err.message);
         }
     },
 
@@ -30,7 +30,7 @@ const courseController = {
             await course.save();
             res.json(course);
         } catch (err) {
-            res.status(400).send('Cannot create course: ' + err.message);
+            res.status(400).send("Impossible de créer le cours : " + err.message);
         }
     },
 
@@ -44,11 +44,14 @@ const courseController = {
                 { new: true, runValidators: true }
             );
             if (!updatedCourse) {
-                return res.status(404).send('Course not found');
+                return res.status(404).send("Cours non trouvé");
             }
-            res.json({ message: 'Course updated successfully', course: updatedCourse });
+            res.json({
+                message: "Cours mis à jour avec succès",
+                course: updatedCourse
+            });
         } catch (err) {
-            res.status(500).send('Cannot update course: ' + err.message);
+            res.status(500).send("Impossible de mettre à jour le cours : " + err.message);
         }
     },
 
@@ -57,11 +60,14 @@ const courseController = {
         try {
             const deletedCourse = await Course.findByIdAndDelete(id);
             if (!deletedCourse) {
-                return res.status(404).send('Course not found');
+                return res.status(404).send("Cours non trouvé");
             }
-            res.json({ message: `Course deleted successfully`, course: deletedCourse });
+            res.json({
+                message: "Cours supprimé avec succès",
+                course: deletedCourse
+            });
         } catch (err) {
-            res.status(500).send('Cannot delete course: ' + err.message);
+            res.status(500).send("Impossible de supprimer le cours : " + err.message);
         }
     }
 };
