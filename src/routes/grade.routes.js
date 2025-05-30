@@ -9,5 +9,6 @@ router.post('/', authenticate, authorizeRoles('ADMIN', 'SCOLARITE'), gradeContro
 router.put('/:id', authenticate, authorizeRoles('ADMIN', 'SCOLARITE'), gradeController.update);
 router.delete('/:id', authenticate, authorizeRoles('ADMIN'), gradeController.deleteGrade);
 router.get('/student/:id', authenticate, gradeController.getByStudentId);
+router.post('/send-bulletin', gradeController.sendBulletinByEmail);
 
 module.exports = router;
